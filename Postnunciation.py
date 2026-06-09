@@ -39,7 +39,16 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
 import webbrowser
-import re
+import subprocess, sys
+
+def open_file(path):
+    if sys.platform == "win32":
+        os.startfile(path)
+    elif sys.platform == "darwin":
+        subprocess.Popen(["open", path])
+    else:
+        subprocess.Popen(["xdg-open", path])
+
 
 class PronunciationCheckerGUI:
     def __init__(self, root):
@@ -278,7 +287,7 @@ class PronunciationCheckerGUI:
                     out_csv.write("\n".join(reaper_lines))
                     
                 summary += f"\nReaper Export: {os.path.basename(reaper_path)}"
-            os.startfile(output_path)
+            open_file(output_path)
         
 
             

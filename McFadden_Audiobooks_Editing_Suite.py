@@ -20,7 +20,8 @@ and contextual notes
 
 2. **Audio Marker Detector (v1.0):** Designed for narrators who use physical clickers to mark 
 flubs during recording. Detects intentional spike transients (clicks, snaps, taps) 
-in audio files to generate Audacity-compatible .txt label tracks. 
+in audio files to generate both Reaper compatible .csv and Audacity-compatible .txt label tracks.
+
 
 3. **Proof Listener (v1.0):** Automated tool designed to identify 
 script deviations (flubs, omissions, and substitutions) in their recorded chapters. 
@@ -29,7 +30,8 @@ Outputs: Reaper Region file or Audacity-compatible .txt label tracks.
 4. **Postnunciation Checker (v1.0):** Scans a given transcript from the Proof Listener 
 for any hard to pronounce, lesser know, or trap words as defined in trapwords.csv. 
 trapwords.csv may be edited to be personalized. 
-Outputs Audacity Label Track (_labels.txt) for easy review.
+Outputs both Reaper compatible .csv and Audacity-compatible .txt label tracks.
+for easy review.
 
 5. **Synced Caption Writer (v1.0):** Creates captions from a given text, and matches the timeline 
 from a given audiofile. Outputs SRT file for captioning word for word from the text.

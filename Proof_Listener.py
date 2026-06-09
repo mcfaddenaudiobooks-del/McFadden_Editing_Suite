@@ -67,14 +67,17 @@ import re
 import threading
 import time
 import webbrowser
+
+
+
 from faster_whisper import WhisperModel
 
 # --- CONFIGURATION DEFAULTS ---
 # These act as the "Recommended" settings and the fallback if fields are empty
 DEFAULTS = {
-    "model_path": "", # Users set this in Advanced Tab
-    "lib_cublas": "", # Users set this in Advanced Tab
-    "lib_cudnn": "",  # Users set this in Advanced Tab
+    "model_path": "", # Empty = auto-download "large-v3" or Users set this in Advanced Tab
+    "lib_cublas": "", # Empty = auto-detect from pip install or Users set this in Advanced Tab
+    "lib_cudnn": "",  # Empty = auto-detect from pip install or Users set this in Advanced Tab
     "no_speech_thresh": 0.6,    # Threshold to ignore non-speech segments
     "word_prob_min": 0.1,       # Min AI confidence to accept a word
     "sync_window": 3,           # Normal lookahead range for synchronization
@@ -103,27 +106,65 @@ def load_settings():
         try:
             with open(CONFIG_FILE, 'r') as f:
                 saved = json.load(f)
-                return {**DEFAULTS, **saved}
-        except: return DEFAULTS
+                merged = {**DEFAULTS, **saved}
+                # Validate path fields — reset if they no longer exist
+                for key in ('model_path', 'lib_cublas', 'lib_cudnn'):
+                    val = merged.get(key, '').strip()
+                    if val and not os.path.exists(val):
+                        merged[key] = ''
+                return merged
+        except:
+            return DEFAULTS
     return DEFAULTS
 
 def save_settings(config):
     with open(CONFIG_FILE, 'w') as f:
         json.dump(config, f, indent=4)
-
+        
+        
 def setup_environment(cfg):
-    # Use entered path, or fallback to default if empty
-    paths = [
-        cfg.get('lib_cublas') or DEFAULTS['lib_cublas'],
-        cfg.get('lib_cudnn') or DEFAULTS['lib_cudnn']
-    ]
-    for p in paths:
-        if os.path.exists(p):
-            os.environ["PATH"] = p + os.pathsep + os.environ["PATH"]
-            if hasattr(os, 'add_dll_directory'):
-                try: os.add_dll_directory(p)
-                except: pass
+    """Sets up CUDA library paths, auto-detecting if not manually specified."""
+    
+    paths_to_add = []
+    
+    # --- Auto-detect cuBLAS ---
+    cublas_path = cfg.get('lib_cublas', '').strip()
+    if not cublas_path:
+        try:
+            import nvidia.cublas
+            cublas_path = os.path.join(os.path.dirname(nvidia.cublas.__file__), 'bin')
+        except ImportError:
+            cublas_path = None
+    
+    if cublas_path and os.path.exists(cublas_path):
+        paths_to_add.append(cublas_path)
+    
+    # --- Auto-detect cuDNN ---
+    cudnn_path = cfg.get('lib_cudnn', '').strip()
+    if not cudnn_path:
+        try:
+            import nvidia.cudnn
+            cudnn_path = os.path.join(os.path.dirname(nvidia.cudnn.__file__), 'bin')
+        except ImportError:
+            cudnn_path = None
+    
+    if cudnn_path and os.path.exists(cudnn_path):
+        paths_to_add.append(cudnn_path)
+    
+    # --- Add all valid paths to environment ---
+    for p in paths_to_add:
+        os.environ["PATH"] = p + os.pathsep + os.environ["PATH"]
+        if hasattr(os, 'add_dll_directory'):
+            try:
+                os.add_dll_directory(p)
+            except OSError:
+                pass
+    
     os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+    
+    
+
+        
 
 def clean_text(text, v_map=None):
     """Aggressively normalizes text for dialect, dashes, and word-mushing."""
@@ -171,6 +212,28 @@ def get_synchronized_data(full_script, whisper_words, v_map):
 
     return script_words, whisper_clean_list, whisper_words
 
+
+def ensure_model(model_name, model_path, status_label):
+    """Shows a download warning only if the model won't be found."""
+    
+    # If the user has pointed to a specific folder, trust that it exists
+    if model_path and os.path.exists(model_path):
+        return
+
+    # Otherwise check the default Hugging Face cache
+    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "huggingface", "hub")
+    model_is_cached = False
+    if os.path.exists(cache_dir):
+        search = f"faster-whisper-{model_name}".lower()
+        model_is_cached = any(search in f.lower() for f in os.listdir(cache_dir))
+
+    if not model_is_cached:
+        status_label.config(
+            text="Status: Downloading AI model (~1.5 GB) — first run only, please wait...",
+            fg="orange"
+        )
+        status_label.update_idletasks()
+
 def run_proofing(audio_path, script_path, custom_vocab, context_era, status_label, cfg, log_func):
     
         #  Use GUI/Default Lib Paths
@@ -183,7 +246,7 @@ def run_proofing(audio_path, script_path, custom_vocab, context_era, status_labe
         status_label.config(text="Status: Loading files...please wait...", fg="orange")
         
         
-        model_path = cfg.get('model_path') or DEFAULTS['model_path']
+        # model_path = cfg.get('model_path') or DEFAULTS['model_path']
         print("Loading files...please wait...")
         #  CREATE THE MAP IMMEDIATELY
         v_map = {}
@@ -193,7 +256,15 @@ def run_proofing(audio_path, script_path, custom_vocab, context_era, status_labe
                 v_map[k.strip().lower()] = v.strip().lower()
         
         
-        model = WhisperModel(model_path, device="cuda", compute_type="int8_float16")
+        
+        
+        model_path = cfg.get('model_path', '').strip() or "large-v3"
+        ensure_model(model_path, cfg.get('model_path', '').strip(), status_label)
+        try:
+            model = WhisperModel(model_path, device="cuda", compute_type="int8_float16")
+        except Exception:
+            model = WhisperModel(model_path, device="cpu", compute_type="int8")
+
         
         prompt = f"{context_era}. Vocabulary: {custom_vocab}"
         status_label.config(text="Status: Transcribing...", fg="#1e90ff")

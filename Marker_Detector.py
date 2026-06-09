@@ -71,8 +71,6 @@ class AudioMarkerDetectorGUI:
         self.root.geometry("550x650")
         self.root.configure(padx=20, pady=20)
         self.root.configure(bg="#2c2c2c")
-        # 1. Load and Display Logo
-        script_dir = os.path.dirname(os.path.abspath(__file__))
 
         
         # --- LOGO SECTION ---

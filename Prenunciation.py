@@ -37,6 +37,15 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
 import webbrowser
+import subprocess, sys
+
+def open_file(path):
+    if sys.platform == "win32":
+        os.startfile(path)
+    elif sys.platform == "darwin":
+        subprocess.Popen(["open", path])
+    else:
+        subprocess.Popen(["xdg-open", path])
 
 class ManuscriptPrepGUI:
     def __init__(self, root):
@@ -244,7 +253,7 @@ class ManuscriptPrepGUI:
                 summary=(f"Report created with {len(found_traps)} unique traps.\nSaved as: {os.path.basename(output_path)}")
 
                 #messagebox.showinfo("Success", f"Report created!\nSaved to: {os.path.basename(output_path)}")
-                os.startfile(output_path)
+                open_file(output_path)
                 
                 def open_tip_jar():
         
