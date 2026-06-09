@@ -1,0 +1,16 @@
+# AI Models (Too large for GitHub)
+Models/
+*.bin
+*.pth
+
+# Personal Settings & Local Data
+config.json
+*_labels.txt
+
+# Python temp files
+__pycache__/
+*.py[cod]
+
+# System files
+.DS_Store
+Thumbs.db
