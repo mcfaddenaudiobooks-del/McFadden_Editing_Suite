@@ -7,11 +7,12 @@ This project is licensed under the terms of the MIT License.
 
 1. **Prenunciation Checker (v1.0):** Scans a given manuscript for  any hard to pronounce, lesser know, or trap words as defined in trapwords.csv. trapwords.csv may be edited to be personalized. Outputs an html complete with written and audio pronunciation guides and contextual notes
 
-2. **Audio Marker Detector (v1.0):** Designed for narrators who use physical clickers to mark flubs during recording. Detects intentional spike transients (clicks, snaps, taps) in audio files to generate Audacity-compatible label tracks. 
+2. **Audio Marker Detector (v1.0):** Designed for narrators who use physical clickers to mark flubs during recording. Detects intentional spike transients (clicks, snaps, taps) in audio files to generate both Reaper compatible .csv and Audacity-compatible .txt label tracks.
 
-3. **Proof Listener (v1.0):** Automated tool designed for professional narrators to identify script deviations (flubs, omissions, and substitutions) in their recorded chapters. Generates Audacity-compatible label tracks.
+3. **Proof Listener (v1.0):** Automated tool designed for professional narrators to identify script deviations (flubs, omissions, and substitutions) in their recorded chapters. Generates both Reaper compatible .csv and Audacity-compatible .txt label tracks.
 
-4. **Postnunciation Checker (v1.0):** Scans a given transcript for any hard to pronounce, lesser know, or trap words as defined in trapwords.csv. trapwords.csv may be edited to be personalized. Outputs Audacity Label Track (_labels.txt) for easy review.
+4. **Postnunciation Checker (v1.0):** Scans a given transcript for any hard to pronounce, lesser know, or trap words as defined in trapwords.csv. trapwords.csv may be edited to be personalized. Outputs both Reaper compatible .csv and Audacity-compatible .txt label tracks.
+for easy review.
 
 5. **Synced Caption Writer (v1.0):** Creates captions from a given text, and matches the timeline 
 from a given audiofile. Outputs SRT file for captioning word for word from the text.
@@ -24,11 +25,27 @@ Complete with punctuation, capitilization, spelling etc.
 ---
 
 ## 🚀 Quick Start Installation
-1. **Install Python 3.9+**
+1. **Install Python 3.9-3.12**
 2. **Install Dependencies:**
+
+# For Windows with NVIDIA GPU acceleration
+Open your terminal or Command Prompt in this folder and run:
+```bash
+   pip install torch --index-url https://download.pytorch.org/whl/cu121
+   pip install -r requirements.txt```
+
+# For Windows *without* NVIDIA GPU
+Open your terminal or Command Prompt in this folder and run:
+```bash
+   pip install torch
+   pip install -r requirements.txt```
+   
+# For mac/Linux/other
 Open your terminal or Command Prompt in this folder and run:
 ```bash
    pip install -r requirements.txt```
+
+
 *Note: On first launch, Proof Listener will automatically download the AI model (approx. 1.5GB). This will only happen once.*
 
 ## 📖 How to Use

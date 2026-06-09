@@ -5,6 +5,7 @@ Models/
 
 # Personal Settings & Local Data
 config.json
+config_caption_writer.json
 *_labels.txt
 
 # Python temp files

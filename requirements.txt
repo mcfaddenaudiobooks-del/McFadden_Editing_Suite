@@ -1,11 +1,14 @@
 # Core AI & Logic
-torch
+numpy
 huggingface_hub
-faster-whisper
+faster-whisper==1.0.3
+# For NVIDIA GPU acceleration (Windows), install PyTorch with CUDA BEFORE running pip install:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
 
-# NVIDIA CUDA 12 Support (The "Engine" for GPU speed)
-nvidia-cublas-cu12
-nvidia-cudnn-cu12==9.*
+
+# NVIDIA CUDA 12 Support (Windows only — macOS uses CPU automatically)
+nvidia-cublas-cu12; sys_platform == "win32"
+nvidia-cudnn-cu12==9.*; sys_platform == "win32"
 
 # Audio Processing
 librosa
