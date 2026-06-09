@@ -1,10 +1,11 @@
 # Core AI & Logic
+torch
 huggingface_hub
 faster-whisper
 
 # NVIDIA CUDA 12 Support (The "Engine" for GPU speed)
 nvidia-cublas-cu12
-nvidia-cudnn-cu12
+nvidia-cudnn-cu12==9.*
 
 # Audio Processing
 librosa
