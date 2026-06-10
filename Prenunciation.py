@@ -2,12 +2,12 @@
 """
 # ==============================================================================
 #  (c) 2026 McFadden Audiobooks. 
-#  McFadden Audiobooks Editing Suite: Prenunciation Checker (v1.0)
+#  McFadden Audiobooks Editing Suite: Prenunciation Checker (v1.0-beta)
 #  Author: Jamie McFadden | Jamie@McfaddenAudiobooks.com
 # ==============================================================================
 
 
-**Prenunciation Checker (v1.0):**
+**Prenunciation Checker (v1.0-beta):**
 
 INPUTS:
         - Manuscript:  .txt of your chapter/ section you are preparing to record
@@ -86,7 +86,7 @@ class ManuscriptPrepGUI:
         branding_frame.pack(pady=(5, 0)) # Centered by default if you don't use anchor="w"
         tk.Label(root, text="McFadden Audiobooks Editing Suite", font=("Arial", 11, "bold"), fg="white", bg="#2c2c2c").pack(pady=1)
         tk.Label(root, text="For Independent Narrators", font=("Arial", 11, "italic"), fg="#b0b0b0", bg="#2c2c2c").pack(pady=1)
-        tk.Label(root, text="Prenuciation Checker", font=("Arial", 18, "bold"), fg="white", bg="#2c2c2c").pack(pady=5)
+        tk.Label(root, text="Prenunciation Checker", font=("Arial", 18, "bold"), fg="white", bg="#2c2c2c").pack(pady=5)
 
 
         # Trap List Frame
@@ -261,7 +261,7 @@ class ManuscriptPrepGUI:
                    
          
                 # --- CUSTOM SUCCESS WINDOW ---
-                success_win = tk.Toplevel(root) # 'root'  main app window variable
+                success_win = tk.Toplevel(self.root) # 'root'  main app window variable
                 success_win.title("Processing Complete")
                 success_win.geometry("400x400")
                 success_win.resizable(False, False)
@@ -296,7 +296,7 @@ class ManuscriptPrepGUI:
                 tk.Label(success_win, text="© 2026 McFadden Audiobooks. All Rights Reserved.", font=("Arial", 9)).pack()
                 
 
-                success_win.transient(root)
+                success_win.transient(self.root)
                 success_win.grab_set()        
                 
             except Exception as e:

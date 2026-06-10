@@ -2,12 +2,12 @@
 """
 # ==============================================================================
 #  (c) 2026 McFadden Audiobooks.
-#  McFadden Audiobooks Editing Suite: Audio Marker Detector (v1.0)
+#  McFadden Audiobooks Editing Suite: Audio Marker Detector (v1.0-beta)
 #  Author: Jamie McFadden | Jamie@McfaddenAudiobooks.com
 # ==============================================================================
 
 
-**Audio Marker Detector (v1.0):**
+**Audio Marker Detector (v1.0-beta):**
 
 PURPOSE:
 Detects intentional spike transients (clicks, snaps, taps) in audio files to generate 
@@ -228,7 +228,7 @@ class AudioMarkerDetectorGUI:
                
      
             # --- CUSTOM SUCCESS WINDOW ---
-            success_win = tk.Toplevel(root) # 'root'  main app window variable
+            success_win = tk.Toplevel(self.root) # 'root'  main app window variable
             success_win.title("Processing Complete")
             success_win.geometry("400x400")
             success_win.resizable(False, False)
@@ -263,7 +263,7 @@ class AudioMarkerDetectorGUI:
             tk.Label(success_win, text="© 2026 McFadden Audiobooks. All Rights Reserved.", font=("Arial", 9)).pack()
             
             
-            success_win.transient(root)
+            success_win.transient(self.root)
             success_win.grab_set()    
         
         except Exception as e:

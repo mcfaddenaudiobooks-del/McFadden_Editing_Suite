@@ -2,12 +2,12 @@
 """
 # ==============================================================================
 #  (c) 2026 McFadden Audiobooks. 
-#  McFadden Audiobooks Editing Suite: Postnunciation Checker (v1.0)
+#  McFadden Audiobooks Editing Suite: Postnunciation Checker (v1.0-beta)
 #  Author: Jamie McFadden | Jamie@McfaddenAudiobooks.com
 # ==============================================================================
 
 
-**Postnunciation Checker (v1.0):** 
+**Postnunciation Checker (v1.0-beta):** 
 
 INPUTS:
         - Transcript from the Proof Listener Tool: .txt of your transcribed chapter
@@ -88,7 +88,7 @@ class PronunciationCheckerGUI:
         branding_frame.pack(pady=(5, 0)) # Centered by default if you don't use anchor="w"
         tk.Label(root, text="McFadden Audiobooks Editing Suite", font=("Arial", 11, "bold"), fg="white", bg="#2c2c2c").pack(pady=1)
         tk.Label(root, text="For Independent Narrators", font=("Arial", 11, "italic"), fg="#b0b0b0", bg="#2c2c2c").pack(pady=1)
-        tk.Label(root, text="Postnuciation Checker", font=("Arial", 18, "bold"), fg="white", bg="#2c2c2c").pack(pady=5)
+        tk.Label(root, text="Postnunciation Checker", font=("Arial", 18, "bold"), fg="white", bg="#2c2c2c").pack(pady=5)
 
 
         tk.Label(root, text="Requires Proofreader to be Run First", font=("Arial",12 , "bold"), fg="orange",bg="#2c2c2c").pack(pady=5)
@@ -108,7 +108,7 @@ class PronunciationCheckerGUI:
         self.file_btn = tk.Button(file_frame, text="Select Transcript.txt",fg="white",  bg="#497d86", command=self.select_transcript)
         self.file_btn.pack(fill="x", padx=5, pady=5)
         
-        self.file_label = tk.Label(file_frame, text="No file selected", fg="gray")
+        self.file_label = tk.Label(file_frame, text="No file selected", fg="gray", bg="#2c2c2c")
         self.file_label.pack(pady=2)
 
         # Progress / Log Section
@@ -179,7 +179,7 @@ class PronunciationCheckerGUI:
             self.csv_label.config(text=f"CSV: {os.path.basename(path)}")
 
     def select_transcript(self):
-        path = filedialog.askopenfilename(filetypes=[("Text files", "*_transcript.txt"), ("All files", "*.*")])
+        path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
         if path:
             self.transcript = path
             self.file_label.config(text=os.path.basename(path), fg="black")
@@ -297,7 +297,7 @@ class PronunciationCheckerGUI:
                
      
             # --- CUSTOM SUCCESS WINDOW ---
-            success_win = tk.Toplevel(root) # 'root'  main app window variable
+            success_win = tk.Toplevel(self.root) # 'root'  main app window variable
             success_win.title("Processing Complete")
             success_win.geometry("400x400")
             success_win.resizable(False, False)
@@ -332,7 +332,7 @@ class PronunciationCheckerGUI:
             tk.Label(success_win, text="© 2026 McFadden Audiobooks. All Rights Reserved.", font=("Arial", 9)).pack()
             
            
-            success_win.transient(root)
+            success_win.transient(self.root)
             success_win.grab_set()   
                 
         

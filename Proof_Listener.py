@@ -3,12 +3,12 @@
 """
 # ==============================================================================
 #  (c) 2026 McFadden Audiobooks. 
-#  McFadden Audiobooks Editing Suite: Proof Listener (v1.0)
+#  McFadden Audiobooks Editing Suite: Proof Listener (v1.0-beta)
 #  Author: Jamie McFadden | Jamie@McfaddenAudiobooks.com
 # ==============================================================================
 
 
-**Proof Listener (v1.0):** 
+**Proof Listener (v1.0-beta):** 
 
 HARDWARE RECOMMENDATIONS:
 - AI ENGINE: Powered by 'faster-whisper' (OpenAI Whisper implementation).
@@ -234,7 +234,7 @@ def ensure_model(model_name, model_path, status_label):
         )
         status_label.update_idletasks()
 
-def run_proofing(audio_path, script_path, custom_vocab, context_era, status_label, cfg, log_func):
+def run_proofing(audio_path, script_path, custom_vocab, context_era, status_label, cfg, log_func, root):
     
         #  Use GUI/Default Lib Paths
     setup_environment(cfg)
@@ -1048,8 +1048,13 @@ class GUI:
             if k in self.adv_entries: self.adv_entries[k].delete(0, tk.END); self.adv_entries[k].insert(0, str(v))
 
     def start(self):
-        cfg = load_settings() 
-        threading.Thread(target=run_proofing, args=(self.audio_entry.get(), self.script_entry.get(), self.vocab_box.get("1.0", tk.END).strip(), self.dialect_entry.get(), self.status_label, cfg, self.gui_log), daemon=True).start()
+        cfg = load_settings()
+        
+        if not self.audio_entry.get() or not self.script_entry.get():
+            messagebox.showwarning("Error", "Please provide all valid audio and text file paths.")
+            #messagebox.showinfo("Selection Error", "Please provide a valid audio file path.",fg="red")
+            return
+        threading.Thread(target=run_proofing, args=(self.audio_entry.get(), self.script_entry.get(), self.vocab_box.get("1.0", tk.END).strip(), self.dialect_entry.get(), self.status_label, cfg, self.gui_log, self.root), daemon=True).start()
 
 if __name__ == "__main__":
     root = tk.Tk(); app =GUI(root); root.mainloop()

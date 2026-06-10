@@ -1,7 +1,7 @@
 # Core AI & Logic
 numpy
 huggingface_hub
-faster-whisper==1.0.3
+faster-whisper>=1.0.3
 # For NVIDIA GPU acceleration (Windows), install PyTorch with CUDA BEFORE running pip install:
 #   pip install torch --index-url https://download.pytorch.org/whl/cu121
 

@@ -2,12 +2,14 @@
 """
 # ==============================================================================
 #  (c) 2026 McFadden Audiobooks. 
-#  McFadden Audiobooks Editing Suite: Synced Caption Writer (v1.0)
+#  McFadden Audiobooks Editing Suite: Synced Caption Writer (v1.0-beta)
 #  Author: Jamie McFadden | Jamie@McfaddenAudiobooks.com
 # ==============================================================================
 
     
-**Synced Caption Writer:** INPUTS:
+**Synced Caption Writer (v1.0-beta):** 
+
+INPUTS:
         - Audio:  .mp3, .wav, .wv
         - Text:  .txt
         
@@ -406,7 +408,7 @@ def run_captioning(audio_path, script_path, status_label, cfg, root ):
         tk.Label(success_win, text="✔ SUCCESS", font=("Arial", 14, "bold"), fg="#28a745").pack(pady=(10, 5))
         
         # 2. The Summary Text 
-        summary_label = tk.Label(success_win, text=("Success", f"Subtitles compiled successfully in {duration:.1f}s!\nSaved: {os.path.basename(output_path)}"), justify="left", font=("Consolas", 10), padx=20)
+        summary_label = tk.Label(success_win, text=(f"Subtitles compiled successfully in {duration:.1f}s!\nSaved: {os.path.basename(output_path)}"), justify="left", font=("Consolas", 10), padx=20)
         summary_label.pack(pady=5)
         
         # 3. The Tip Jar Section 
@@ -658,15 +660,16 @@ class GUI:
         self.cfg["max_words_per_caption"] = self.max_word_scale.get()
         save_settings(self.cfg)
         
+        if not self.audio_entry.get() or not self.script_entry.get():
+            messagebox.showwarning("Error", "Please provide all valid audio and text file paths.")
+            #messagebox.showinfo("Selection Error", "Please provide a valid audio file path.",fg="red")
+            return
         audio_path = self.audio_entry.get().strip()
+        
         script_path = self.script_entry.get().strip()
         
-        if not audio_path or not os.path.exists(audio_path):
-            messagebox.showerror("Selection Error", "Please provide a valid audio master file path target context.",fg="red")
-            return
-        if not script_path or not os.path.exists(script_path):
-            messagebox.showerror("Selection Error", "Please provide a valid text script target template selection.",fg="red")
-            return
+        
+
             
         self.status_label.config(text="Status: Initializing...", fg="orange")
         

@@ -2,7 +2,7 @@
 """
 # ==============================================================================
 #  (c) 2026 McFadden Audiobooks. 
-#  McFadden Audiobooks Editing Suite (v1.0)
+#  McFadden Audiobooks Editing Suite (v1.0-beta)
 #       For Independent Narrators
 #  Author: Jamie McFadden | Jamie@McfaddenAudiobooks.com
 # ==============================================================================
@@ -13,29 +13,29 @@ without ever sending your NDA-restricted audio to the cloud.
 
 ## 🛠️ The Toolbox: 
 
-1. **Prenunciation Checker (v1.0):** Scans a given manuscript for  any hard to pronounce, 
+1. **Prenunciation Checker (v1.0-beta):** Scans a given manuscript for  any hard to pronounce, 
 lesser know, or trap words as defined in trapwords.csv. trapwords.csv may be edited 
 to be personalized. Outputs an html complete with written and audio pronunciation guides 
 and contextual notes
 
-2. **Audio Marker Detector (v1.0):** Designed for narrators who use physical clickers to mark 
+2. **Audio Marker Detector (v1.0-beta):** Designed for narrators who use physical clickers to mark 
 flubs during recording. Detects intentional spike transients (clicks, snaps, taps) 
 in audio files to generate both Reaper compatible .csv and Audacity-compatible .txt label tracks.
 
 
-3. **Proof Listener (v1.0):** Automated tool designed to identify 
+3. **Proof Listener (v1.0-beta):** Automated tool designed to identify 
 script deviations (flubs, omissions, and substitutions) in their recorded chapters. 
 Outputs: Reaper Region file or Audacity-compatible .txt label tracks.
 
-4. **Postnunciation Checker (v1.0):** Scans a given transcript from the Proof Listener 
+4. **Postnunciation Checker (v1.0-beta):** Scans a given transcript from the Proof Listener 
 for any hard to pronounce, lesser know, or trap words as defined in trapwords.csv. 
 trapwords.csv may be edited to be personalized. 
 Outputs both Reaper compatible .csv and Audacity-compatible .txt label tracks.
 for easy review.
 
-5. **Synced Caption Writer (v1.0):** Creates captions from a given text, and matches the timeline 
+5. **Synced Caption Writer (v1.0-beta):** Creates captions from a given text, and matches the timeline 
 from a given audiofile. Outputs SRT file for captioning word for word from the text.
-Complete with punctuation, capitilization, spelling etc.
+Complete with punctuation, capitalization, spelling etc.
 
 SECURITY & PRIVACY:
 - RUNS 100% LOCALLY: No audio or manuscript data is ever sent to the cloud.
