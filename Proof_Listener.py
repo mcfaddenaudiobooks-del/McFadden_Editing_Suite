@@ -797,7 +797,7 @@ class GUI:
 
         tk.Label(
             footer_frame, 
-            text="© 2026 McFadden Audiobooks All Rights Reserved | 100% Local Processing", 
+            text="© 2026 McFadden Audiobooks | 100% Local Processing", 
             font=("Arial", 8), fg="#888888", bg="#2c2c2c"
         ).pack(side="top")
 
